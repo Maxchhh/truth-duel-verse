@@ -9,7 +9,269 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      claims: {
+        Row: {
+          category: string
+          created_at: string
+          creator_id: string
+          creator_stake: number | null
+          deadline: string
+          description: string | null
+          false_stake: number | null
+          false_votes: number | null
+          id: string
+          is_creator_moderated: boolean | null
+          outcome: boolean | null
+          required_veri_stake: number | null
+          resolution_method: string
+          resolved_at: string | null
+          status: string | null
+          title: string
+          total_volume: number | null
+          true_stake: number | null
+          true_votes: number | null
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          creator_id: string
+          creator_stake?: number | null
+          deadline: string
+          description?: string | null
+          false_stake?: number | null
+          false_votes?: number | null
+          id?: string
+          is_creator_moderated?: boolean | null
+          outcome?: boolean | null
+          required_veri_stake?: number | null
+          resolution_method: string
+          resolved_at?: string | null
+          status?: string | null
+          title: string
+          total_volume?: number | null
+          true_stake?: number | null
+          true_votes?: number | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          creator_id?: string
+          creator_stake?: number | null
+          deadline?: string
+          description?: string | null
+          false_stake?: number | null
+          false_votes?: number | null
+          id?: string
+          is_creator_moderated?: boolean | null
+          outcome?: boolean | null
+          required_veri_stake?: number | null
+          resolution_method?: string
+          resolved_at?: string | null
+          status?: string | null
+          title?: string
+          total_volume?: number | null
+          true_stake?: number | null
+          true_votes?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "claims_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      duels: {
+        Row: {
+          challenged_id: string | null
+          challenger_id: string
+          challenger_side: boolean
+          created_at: string
+          id: string
+          outcome: boolean | null
+          resolved_at: string | null
+          stake_amount: number
+          statement: string
+          status: string | null
+        }
+        Insert: {
+          challenged_id?: string | null
+          challenger_id: string
+          challenger_side: boolean
+          created_at?: string
+          id?: string
+          outcome?: boolean | null
+          resolved_at?: string | null
+          stake_amount: number
+          statement: string
+          status?: string | null
+        }
+        Update: {
+          challenged_id?: string | null
+          challenger_id?: string
+          challenger_side?: boolean
+          created_at?: string
+          id?: string
+          outcome?: boolean | null
+          resolved_at?: string | null
+          stake_amount?: number
+          statement?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "duels_challenged_id_fkey"
+            columns: ["challenged_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "duels_challenger_id_fkey"
+            columns: ["challenger_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          predictions_count: number | null
+          total_volume: number | null
+          truth_score: number | null
+          updated_at: string
+          user_id: string
+          username: string | null
+          veri_balance: number | null
+          wallet_address: string | null
+          win_rate: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          predictions_count?: number | null
+          total_volume?: number | null
+          truth_score?: number | null
+          updated_at?: string
+          user_id: string
+          username?: string | null
+          veri_balance?: number | null
+          wallet_address?: string | null
+          win_rate?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          predictions_count?: number | null
+          total_volume?: number | null
+          truth_score?: number | null
+          updated_at?: string
+          user_id?: string
+          username?: string | null
+          veri_balance?: number | null
+          wallet_address?: string | null
+          win_rate?: number | null
+        }
+        Relationships: []
+      }
+      resolutions: {
+        Row: {
+          claim_id: string
+          created_at: string
+          dispute_count: number | null
+          id: string
+          oracle_signature: string | null
+          outcome: boolean
+          resolved_by: string | null
+        }
+        Insert: {
+          claim_id: string
+          created_at?: string
+          dispute_count?: number | null
+          id?: string
+          oracle_signature?: string | null
+          outcome: boolean
+          resolved_by?: string | null
+        }
+        Update: {
+          claim_id?: string
+          created_at?: string
+          dispute_count?: number | null
+          id?: string
+          oracle_signature?: string | null
+          outcome?: boolean
+          resolved_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resolutions_claim_id_fkey"
+            columns: ["claim_id"]
+            isOneToOne: false
+            referencedRelation: "claims"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "resolutions_resolved_by_fkey"
+            columns: ["resolved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      votes: {
+        Row: {
+          claim_id: string
+          created_at: string
+          id: string
+          side: boolean
+          stake_amount: number
+          transaction_signature: string | null
+          user_id: string
+        }
+        Insert: {
+          claim_id: string
+          created_at?: string
+          id?: string
+          side: boolean
+          stake_amount: number
+          transaction_signature?: string | null
+          user_id: string
+        }
+        Update: {
+          claim_id?: string
+          created_at?: string
+          id?: string
+          side?: boolean
+          stake_amount?: number
+          transaction_signature?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "votes_claim_id_fkey"
+            columns: ["claim_id"]
+            isOneToOne: false
+            referencedRelation: "claims"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "votes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
